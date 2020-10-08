@@ -1,0 +1,83 @@
+# Implementaion of Matching paranthesis in c using stack
+#include <stdio.h>
+#include<string.h>
+int top=-1;
+char stack[100];
+void push(char);
+char pop();
+int match(char,char);
+void push(char a)
+{
+    top++;
+    stack[top]=a;
+    printf("Push %c\n",stack[top]);
+    printf("Top = %d\n",top);
+}
+char pop()
+{
+    char flag;
+    flag=stack[top];
+    top--;
+    printf("Pop %c\n",flag);
+    printf("Top = %d\n",top);
+    return flag;
+}
+int match(char a,char b)
+{
+    if ( a=='(' && b==')')
+    return 1;
+    else if(a=='{' && b=='}')
+    return 1;
+    else if(a=='[' && b==']')
+    return 1;
+    return 0;
+}
+int check(char *input1)
+{
+    int i=0;
+    char flag;
+    int len=strlen(input1);
+    printf("Len = %d\n",len);
+    for(i=0;i<(strlen(input1));i++)
+    {
+        if ( input1[i]=='(' || input1[i]=='{' || input1[i]=='[')
+        {
+            push(input1[i]);
+            
+        }
+        if ( input1[i]==')' || input1[i]=='}' || input1[i]==']')
+        {
+            if(top==-1)
+            {
+                return 0;
+            }
+            flag=pop();
+            
+            if(match(flag,input1[i])==0)
+            {
+                printf("Not match %c and %c\n",flag,input1[i]);
+                return 0;
+            }
+        }
+    }
+    if(top==-1)
+    return 1;
+    else
+    return 0;
+}
+int main()
+{
+    char *input1="({)}{}[]";
+    //int i,n;
+    //n=5;
+    //printf("Enter length-:\n");
+    //scanf("%d",&n);
+    //for(i=0;i<n;i++)
+    //scanf("%c",&input1[i]);
+    if(check(input1)==1)
+    printf("Balanced");
+    else
+    printf("Not Balanced");
+
+    return 0;
+}
